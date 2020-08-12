@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>On Filing</title>
+    <base href="/">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/img/favicon.png">
+
+    <title>Onfilling | Package Database</title>
+
+    <!-- vendor css -->
+    <link rel="stylesheet" href="../../assets/lib/fortawesome/all.min.css">
+    <link rel="stylesheet" href="../../assets/lib/fortawesome/ionicons.min.css">
+    <!-- DashForge CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.6.1/fullcalendar.min.css">
+    <link rel="stylesheet" href="../assets/css/dashforge.css">
+    <link rel="stylesheet" href="../assets/css/dashforge.profile.css">
+    <link href="../../assets/bundles/summernote/summernote-bs4.css">
+    <link rel="stylesheet" href="../../assets/css/dashforge.filemgr.css">
+    <link rel="stylesheet" href="../../assets/css/dashforge.contacts.css">
+    <link rel="stylesheet" href="../../assets/css/dashforge.chat.css">
+    <link href="../../assets/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/dashforge.calendar.css">
+    <link rel="stylesheet" href="../../assets/css/bootstrap.calendar.css">
+<link rel="stylesheet" href="styles.6213ab9c4b409e6b18e0.css"></head>
+
+<body>
+    <app-root></app-root>
+<script src="runtime-es2015.cdfb0ddb511f65fdc0a0.js" type="module"></script><script src="runtime-es5.cdfb0ddb511f65fdc0a0.js" nomodule defer></script><script src="polyfills-es5.5e86a2d63233b345fb0e.js" nomodule defer></script><script src="polyfills-es2015.94d3ba46aae3a65c2d88.js" type="module"></script><script src="scripts.a472ce49d8c80cc7d4c4.js" defer></script><script src="main-es2015.acbf4ad7dbe63ae7d6b3.js" type="module"></script><script src="main-es5.acbf4ad7dbe63ae7d6b3.js" nomodule defer></script></body>
+
+
+<script src="../../assets/lib/jquery/jquery.min.js"></script>
+<script src="../../assets/lib/jqueryui/jquery-ui.min.js"></script>
+<script src="../../assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/lib/feather-icons/feather.min.js"></script>
+<script src="../../assets/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="../../assets/lib/moment/min/moment.min.js"></script>
+<script src="../../assets/lib/fullcalendar/fullcalendar.min.js"></script>
+<script src="../../assets/lib/select2/js/select2.full.min.js"></script>
+<script src="../../assets/js/dashforge.js"></script>
+
+<script>
+    $(function () {
+        'use strict'
+
+        if (window.matchMedia('(min-width: 768px)').matches) {
+            $('body').addClass('show-sidebar-right');
+            $('#showMemberList').addClass('active');
+        }
+    })
+</script>
+
+<script>
+    $(function () {
+        'use strict'
+
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev',
+                center: 'title',
+                right: 'next'
+            },
+            titleFormat: {
+                month: 'MMMM YYYY',
+                week: 'MMMM YYYY',
+                day: 'MMMM YYYY'
+            },
+            contentHeight: 300,
+            height: 200,
+            eventRender: function (event, element) {
+                element.popover({
+                    title: event.title1,
+                    placement: 'auto',
+                    html: true,
+                    trigger: 'click',
+                    animation: 'true',
+                    content: event.msg,
+                    container: 'body'
+                });
+
+                $('body').on('click', function (e) {
+                    if (!element.is(e.target) && element.has(e.target).length === 0 && $('.popover').has(e.target).length === 0)
+                        element.popover('hide');
+                });
+            }
+        });
+
+        addButtons();
+
+        bindButtonActions();
+
+        function addButtons() {
+            // create buttons
+            var month = $("<span/>")
+                .addClass("fc-button fc-button-month fc-state-default fc-corner-left fc-state-active")
+                .attr({
+                    unselectable: "on"
+                })
+                .text("moth");
+
+            var week = $("<span/>")
+                .addClass("fc-button fc-button-agendaWeek fc-state-default")
+                .attr({
+                    unselectable: "on"
+                })
+                .text("week");
+
+            var day = $("<span/>")
+                .addClass("fc-button fc-button-agendaDay fc-state-default fc-corner-right")
+                .attr({
+                    unselectable: "on"
+                })
+                .text("day");
+
+            // create tr with buttons.
+            // Please note, if you want the buttons to be placed at the center or right,
+            // you will have to append more <td> elements
+            var tr = $("<tr/>").append(
+                $("<td/>")
+                    .addClass("fc-header-left")
+                    .append(month)
+                    .append(week)
+                    .append(day)
+            );
+
+            // insert row before title.
+            $(".fc-header").find("tr:first").before(tr);
+        }
+
+        function bindButtonActions() {
+            var date = new Date();
+            // bind actions to buttons
+            $(".fc-button-month, .fc-button-agendaWeek, .fc-button-agendaDay").on('click', function () {
+                var view = "month";
+                if ($(this).hasClass("fc-button-agendaWeek")) {
+                    view = "agendaWeek";
+                } else if ($(this).hasClass("fc-button-agendaDay")) {
+                    view = "agendaDay";
+                }
+
+                $('#calendar').fullCalendar('changeView', view);
+            });
+        }
+    });
+</script>
+
+</html>
